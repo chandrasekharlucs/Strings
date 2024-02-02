@@ -1,7 +1,7 @@
 import { Box, Container, Flex } from "@chakra-ui/react";
 import React from "react";
 import FeedPosts from "../../components/FeedPosts/FeedPosts";
-import SuggestedUsers from "../../components/suggestedUsers/SuggestedUsers";
+import SuggestedUsers from "../../components/SuggestedUsers/SuggestedUsers";
 function HomePage() {
   return (
     <Container maxW={"container.lg"}>
