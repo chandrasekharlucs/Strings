@@ -4,7 +4,7 @@ import usePostStore from "../store/postStore";
 import useAuthStore from "../store/authStore";
 import useUserProfileStore from "../store/userProfileStore";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { firestore } from "../firebase/firebase";
+import { firestore } from "../Firebase/Firebase";
 
 const useGetFeedPosts = () => {
   const [isLoading, setIsLoading] = useState(false);

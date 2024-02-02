@@ -9,7 +9,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { firestore } from "../firebase/firebase";
+import { firestore } from "../Firebase/Firebase";
 
 const useGetSuggestedUsers = () => {
   const [isLoading, setIsLoading] = useState(false);
