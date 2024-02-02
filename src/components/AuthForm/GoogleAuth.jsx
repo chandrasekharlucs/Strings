@@ -1,10 +1,10 @@
 import { Flex, Image, Text } from "@chakra-ui/react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { auth } from "../../FireBase/FireBase";
+
 import useShowToast from "../../hooks/useShowToast";
 import useAuthStore from "../../store/authStore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { firestore } from "../../FireBase/FireBase";
+import { firestore, auth } from "../../firebase/firebase";
 
 const GoogleAuth = ({ isLogin }) => {
   const [signInWithGoogle, , , error] = useSignInWithGoogle(auth);

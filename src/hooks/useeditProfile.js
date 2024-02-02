@@ -1,5 +1,5 @@
 import { getDownloadURL, uploadString, ref } from "firebase/storage";
-import { firestore, storage } from "../FireBase/FireBase";
+import { firestore, storage } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";
 import useShowToast from "./useShowToast";
 import {

@@ -3,7 +3,7 @@ import useAuthStore from "../store/authStore";
 import useUserProfileStore from "../store/userProfileStore";
 import useShowToast from "./useShowToast";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { firestore } from "../FireBase/FireBase";
+import { firestore } from "../firebase/firebase";
 
 const useFollowUser = (userId) => {
   const [isUpdating, setIsUpdating] = useState(false);

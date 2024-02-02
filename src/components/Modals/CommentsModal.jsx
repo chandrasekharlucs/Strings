@@ -10,7 +10,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import Comment from "../Comment/Comment";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import usePostcomment from "../../hooks/usePostcomment";
 
 const CommentsModal = ({ isOpen, onClose, post }) => {

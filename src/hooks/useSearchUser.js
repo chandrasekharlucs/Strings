@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useShowToast from "./useShowToast";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { firestore } from "../FireBase/FireBase";
+import { firestore } from "../firebase/firebase";
 
 const useSearchUser = () => {
   const [isLoading, setIsLoading] = useState(false);

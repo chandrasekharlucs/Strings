@@ -27,7 +27,6 @@ import { deleteObject, ref } from "firebase/storage";
 import { firestore, storage } from "../../firebase/firebase";
 import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import usePostStore from "../../store/postStore";
-import Caption from "../Comment/Caption";
 
 const ProfilePost = ({ post }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

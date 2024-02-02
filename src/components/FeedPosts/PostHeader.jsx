@@ -5,15 +5,12 @@ import {
   Flex,
   Skeleton,
   SkeletonCircle,
-  Text,
 } from "@chakra-ui/react";
 import { TimeAgo } from "../../utils/TimeAgo";
 import { Link } from "react-router-dom";
-import useAuthStore from "../../store/authStore";
 import useFollowUser from "../../hooks/useFollowUser";
 
 const PostHeader = ({ post, creatorProfile }) => {
-  const authUser = useAuthStore((state) => state.user);
   const { isFollowing, isUpdating, handleFollowerUser } = useFollowUser(
     post.createdBy
   );

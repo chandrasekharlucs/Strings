@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Image,
-  Link,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Link, Tooltip } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { BiLogOut } from "react-icons/bi";

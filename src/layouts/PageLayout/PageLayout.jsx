@@ -3,7 +3,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../FireBase/FireBase";
+import { auth } from "../../firebase/firebase";
 import Navbar from "../../components/Navbar/Navbar";
 function PageLayout({ children }) {
   const { pathname } = useLocation();

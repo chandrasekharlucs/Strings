@@ -20,7 +20,7 @@ import {
 import usePreviewImg from "../../hooks/usePreviewImg";
 // import { BsFillImageFill } from "react-icons/bs";
 import { CreatePostLogo } from "../../assets/constants";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useShowToast from "../../hooks/useShowToast";
 import useAuthStore from "../../store/authStore";
 import usePostStore from "../../store/postStore";
