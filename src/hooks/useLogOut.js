@@ -1,5 +1,5 @@
 import { useSignOut } from "react-firebase-hooks/auth";
-import { auth } from "../FireBase/FireBase";
+import { auth } from "../Firebase/Firebase";
 import useShowToast from "./useShowToast";
 import useAuthStore from "../store/authStore";
 const useLogOut = () => {
