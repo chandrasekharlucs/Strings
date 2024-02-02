@@ -25,7 +25,6 @@ const useGetUserPosts = () => {
         querySnapshot.forEach((doc) => {
           posts1.push({ ...doc.data(), id: doc.id });
         });
-        console.log(posts1);
         posts1.sort((a, b) => b.createdAt - a.createdAt);
         setPosts(posts1);
       } catch (error) {
