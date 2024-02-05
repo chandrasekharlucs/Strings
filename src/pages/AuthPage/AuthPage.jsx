@@ -4,7 +4,14 @@ import AuthForm from "../../components/AuthForm/AuthForm";
 
 export default function AuthPage() {
   return (
-    <Flex minH={"100vh"} justifyContent={"center"} alignItems={"center"} px={4}>
+    <Flex
+      minH={"100vh"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      px={4}
+      overflowY={"auto"}
+      margin={5}
+    >
       <Container maxW={"container.md"} padding={0}>
         <Flex alignItems={"center"} justifyContent={"center"} gap={10}>
           {/* <Box display={{ base: "none", md: "block" }}>
