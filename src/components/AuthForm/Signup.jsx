@@ -55,7 +55,9 @@ const Signup = () => {
           onChange={(e) => handleChange(e, "userName")}
         />
         {!isValid && (
-          <FormErrorMessage>Please enter valid Letter</FormErrorMessage>
+          <FormErrorMessage>
+            Usernames can only use letters, numbers, underscores and periods.
+          </FormErrorMessage>
         )}
       </FormControl>
       <Input
