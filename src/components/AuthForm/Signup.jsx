@@ -55,7 +55,7 @@ const Signup = () => {
           onChange={(e) => handleChange(e, "userName")}
         />
         {!isValid && (
-          <FormErrorMessage>
+          <FormErrorMessage maxW={40} fontSize={10}>
             Usernames can only use letters, numbers, underscores and periods.
           </FormErrorMessage>
         )}
