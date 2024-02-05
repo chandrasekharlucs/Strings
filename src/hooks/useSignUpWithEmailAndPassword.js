@@ -48,7 +48,7 @@ const useSignUpWithEmailAndPassword = () => {
       if (newUser) {
         const userDoc = {
           uid: newUser.user.uid,
-          userName: inputs.userName.toLowerCase().trim(),
+          userName: inputs.userName.toLowerCase(),
           fullName: inputs.fullName,
           email: inputs.email,
           bio: "",

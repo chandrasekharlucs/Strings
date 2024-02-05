@@ -9,7 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import useSignUpWithEmailAndPassword from "../../hooks/useSignUpWithEmailAndPassword";
+import { FormErrorMessage, FormControl } from "@chakra-ui/react";
+
 const Signup = () => {
+  const [isValid, setIsValid] = useState(true);
+
   const [inputs, setInputs] = useState({
     userName: "",
     fullName: "",
@@ -22,6 +26,10 @@ const Signup = () => {
       ...prev,
       [name]: e.target.value,
     }));
+    if (name === "userName") {
+      const isValidInput = /^[a-zA-Z0-9_.]+$/.test(e.target.value);
+      setIsValid(isValidInput);
+    }
   };
   const { loading, error, signup } = useSignUpWithEmailAndPassword();
   return (
@@ -35,15 +43,21 @@ const Signup = () => {
         maxLength={30}
         onChange={(e) => handleChange(e, "email")}
       />
-      <Input
-        maxLength={20}
-        placeholder="Username"
-        fontSize={14}
-        type="text"
-        value={inputs.userName}
-        size={"sm"}
-        onChange={(e) => handleChange(e, "userName")}
-      />
+      <FormControl isInvalid={!isValid}>
+        <Input
+          maxLength={20}
+          name="username"
+          placeholder="Username"
+          fontSize={14}
+          type="text"
+          value={inputs.userName}
+          size={"sm"}
+          onChange={(e) => handleChange(e, "userName")}
+        />
+        {!isValid && (
+          <FormErrorMessage>Please enter valid Letter</FormErrorMessage>
+        )}
+      </FormControl>
       <Input
         maxLength={20}
         placeholder="Full Name"
@@ -85,7 +99,7 @@ const Signup = () => {
         fontSize={14}
         size={"sm"}
         isLoading={loading}
-        onClick={() => signup(inputs)}
+        onClick={() => isValid && signup(inputs)}
       >
         Sign Up
       </Button>
