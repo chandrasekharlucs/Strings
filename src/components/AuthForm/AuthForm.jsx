@@ -64,14 +64,16 @@ const AuthForm = () => {
             <Box flex={2} h={"1px"} bg={"gray.400"} />
           </Flex>
           <GoogleAuth isLogin={isLogin} />
-          <Button
-            isLoading={sending}
-            onClick={forgotPassword}
-            bg={"transparent"}
-            _hover={{ background: "transparent" }}
-          >
-            forgot password?
-          </Button>
+          {isLogin && (
+            <Button
+              isLoading={sending}
+              onClick={forgotPassword}
+              bg={"transparent"}
+              _hover={{ background: "transparent" }}
+            >
+              forgot password?
+            </Button>
+          )}
         </VStack>
       </Box>
       <Box border={"1px solid gray"} borderRadius={4} padding={5}>
