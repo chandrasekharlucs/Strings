@@ -1,5 +1,6 @@
 import {
   Flex,
+  Box,
   GridItem,
   Image,
   Text,
@@ -44,8 +45,10 @@ const ProfilePost = ({ post }) => {
     setIsDeleting(true);
     if (isDeleting) return;
     try {
-      const imageRef = ref(storage, `posts/${post.id}`);
-      await deleteObject(imageRef);
+      if (Object.keys(post).includes("imageURL")) {
+        const imageRef = ref(storage, `posts/${post.id}`);
+        await deleteObject(imageRef);
+      }
       const userRef = doc(firestore, "users", authUser.uid);
       await deleteDoc(doc(firestore, "posts", post.id));
       await updateDoc(userRef, {
@@ -100,13 +103,41 @@ const ProfilePost = ({ post }) => {
             </Flex>
           </Flex>
         </Flex>
-        <Image
-          src={post.imageURL}
-          alt="posts"
-          objectFit={"cover"}
-          w={"100%"}
-          h={"100%"}
-        />
+        {Object.keys(post).includes("imageURL") ? (
+          <Image
+            src={post.imageURL}
+            alt="posts"
+            objectFit={"cover"}
+            w={"100%"}
+            h={"100%"}
+          />
+        ) : (
+          <Box
+            bg="white"
+            width="100%"
+            height="0"
+            paddingBottom="100%" // This creates the 1:1 aspect ratio
+            borderRadius="md"
+            boxShadow="md"
+            textAlign="center"
+            lineHeight="1.5"
+            position="relative"
+          >
+            <Box
+              position="absolute"
+              top="0"
+              left="0"
+              right="0"
+              bottom="0"
+              overflow="hidden"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text color={"black"}>{post.caption}</Text>
+            </Box>
+          </Box>
+        )}
       </GridItem>
       <Modal
         isOpen={isOpen}
@@ -136,12 +167,42 @@ const ProfilePost = ({ post }) => {
                 justifyContent={"center"}
                 alignItems={"center"}
               >
-                <Image
-                  src={post.imageURL}
-                  alt="profile post"
-                  height={"100%"}
-                  width={"100%"}
-                />
+                {Object.keys(post).includes("imageURL") ? (
+                  <Image
+                    src={post.imageURL}
+                    alt="profile post"
+                    height={"100%"}
+                    width={"100%"}
+                  />
+                ) : (
+                  <Box
+                    bg="white"
+                    width="100%"
+                    height="0"
+                    paddingBottom="100%" // This creates the 1:1 aspect ratio
+                    borderRadius="md"
+                    boxShadow="md"
+                    textAlign="center"
+                    lineHeight="1.5"
+                    position="relative"
+                  >
+                    <Box
+                      position="absolute"
+                      top="0"
+                      left="0"
+                      right="0"
+                      bottom="0"
+                      overflow="hidden"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Text fontFamily={"sans-serif"} color={"black"}>
+                        {post.caption}
+                      </Text>
+                    </Box>
+                  </Box>
+                )}
               </Flex>
               <Flex
                 flex={1}

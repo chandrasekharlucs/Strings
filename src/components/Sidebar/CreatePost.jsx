@@ -35,6 +35,7 @@ import {
 } from "firebase/firestore";
 import { firestore, storage } from "../../Firebase/Firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { useEffect } from "react";
 
 const CreatePost = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -48,13 +49,18 @@ const CreatePost = () => {
   const handlePostCreation = async () => {
     if (isLoading) return;
     try {
-      await handleCreatePost(selectedFile, caption);
+      await handleCreatePost(selectedFile, caption, flag);
       onClose();
       setCaption("");
       setSelectedFile(null);
+      setFlag(false);
     } catch (error) {
       showToast("Error", error.message, "error");
     }
+  };
+  const handleClose = () => {
+    setFlag(false);
+    setCaption("");
   };
 
   return (
@@ -81,12 +87,16 @@ const CreatePost = () => {
           <Box display={{ base: "none", md: "block" }}>Create</Box>
         </Flex>
       </Tooltip>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal
+        closeOnOverlayClick={false}
+        isOpen={isOpen}
+        onClose={onClose}
+        size="xl"
+      >
         <ModalOverlay />
-
         <ModalContent bg={"black"} border={"1px solid gray"}>
           <ModalHeader>Create Post</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={handleClose} />
           <ModalBody pb={6}>
             <Input
               type="file"
@@ -129,7 +139,7 @@ const CreatePost = () => {
                 Strings
               </Button>
             </Flex>
-            {flag && (
+            {/* {flag && (
               <Text
                 fontSize={14}
                 m={4}
@@ -140,7 +150,7 @@ const CreatePost = () => {
               >
                 Available Soon
               </Text>
-            )}
+            )} */}
             {selectedFile && (
               <Flex
                 mt={2}
@@ -162,24 +172,21 @@ const CreatePost = () => {
                 <Image src={selectedFile} alt="Selected img" />
               </Flex>
             )}
-            {!flag && (
-              <Textarea
-                mt={2}
-                placeholder="Post caption..."
-                _placeholder={{ color: "gray.300" }}
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-                maxLength={100}
-              />
-            )}
+
+            <Textarea
+              mt={2}
+              placeholder={flag ? "Post description..." : "Post caption..."}
+              _placeholder={{ color: "gray.300" }}
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              maxLength={100}
+            />
           </ModalBody>
 
           <ModalFooter>
-            {!flag && (
-              <Button mr={3} onClick={handlePostCreation} isLoading={isLoading}>
-                Post
-              </Button>
-            )}
+            <Button mr={3} onClick={handlePostCreation} isLoading={isLoading}>
+              Post
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -194,10 +201,10 @@ function useCreatePost() {
   const addPost = useUserProfileStore((state) => state.addPost);
   const userProfile = useUserProfileStore((state) => state.userProfile);
   const { pathname } = useLocation();
-
-  const handleCreatePost = async (selectedFile, caption) => {
+  const handleCreatePost = async (selectedFile, caption, flag) => {
     if (isLoading) return;
-    if (!selectedFile) throw new Error("Please select an image");
+    if (flag === false && !selectedFile)
+      throw new Error("Please select an image");
     setIsLoading(true);
     const newPost = {
       caption: caption,
@@ -210,15 +217,17 @@ function useCreatePost() {
     try {
       const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
       const userDocRef = doc(firestore, "users", authUser.uid);
-      const imageRef = ref(storage, `posts/${postDocRef.id}`);
+      if (!flag) {
+        const imageRef = ref(storage, `posts/${postDocRef.id}`);
 
-      await updateDoc(userDocRef, { posts: arrayUnion(postDocRef.id) });
-      await uploadString(imageRef, selectedFile, "data_url");
-      const downloadURL = await getDownloadURL(imageRef);
+        await updateDoc(userDocRef, { posts: arrayUnion(postDocRef.id) });
+        await uploadString(imageRef, selectedFile, "data_url");
+        const downloadURL = await getDownloadURL(imageRef);
 
-      await updateDoc(postDocRef, { imageURL: downloadURL });
+        await updateDoc(postDocRef, { imageURL: downloadURL });
 
-      newPost.imageURL = downloadURL;
+        newPost.imageURL = downloadURL;
+      }
 
       if (userProfile.uid === authUser.uid)
         createPost({ ...newPost, id: postDocRef.id });
