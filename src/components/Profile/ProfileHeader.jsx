@@ -23,7 +23,6 @@ const ProfileHeader = () => {
   const { handleFollowerUser, isUpdating, isFollowing } = useFollowUser(
     userProfile?.uid
   );
-  console.log(userProfile);
   return (
     <Flex
       gap={{ base: 4, sm: 10 }}

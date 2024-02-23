@@ -16,9 +16,7 @@ const Caption = ({ post }) => {
               {userProfile?.userName}
             </Text>
           </Link>
-          {Object.keys(post).includes("imageURL") && (
-            <Text fontSize={14}>{post.caption} </Text>
-          )}
+          <Text fontSize={14}>{post.caption} </Text>
         </Flex>
         {/* <Text fontSize={12} color={"gray"}>
           {TimeAgo(post.createdAt)}

@@ -14,7 +14,7 @@ import {
   useDisclosure,
   ModalHeader,
   Image,
-  Text,
+  // Text,
   CloseButton,
 } from "@chakra-ui/react";
 import usePreviewImg from "../../hooks/usePreviewImg";
@@ -35,11 +35,9 @@ import {
 } from "firebase/firestore";
 import { firestore, storage } from "../../Firebase/Firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { useEffect } from "react";
 
 const CreatePost = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [flag, setFlag] = useState(false);
   const [caption, setCaption] = useState("");
   const imgRef = useRef(null);
   const { selectedFile, handleImageChange, setSelectedFile } = usePreviewImg();
@@ -49,17 +47,15 @@ const CreatePost = () => {
   const handlePostCreation = async () => {
     if (isLoading) return;
     try {
-      await handleCreatePost(selectedFile, caption, flag);
+      await handleCreatePost(selectedFile, caption);
       onClose();
       setCaption("");
       setSelectedFile(null);
-      setFlag(false);
     } catch (error) {
       showToast("Error", error.message, "error");
     }
   };
   const handleClose = () => {
-    setFlag(false);
     setCaption("");
   };
 
@@ -118,12 +114,11 @@ const CreatePost = () => {
                 size={"sm"}
                 onClick={() => {
                   imgRef.current.click();
-                  setFlag(false);
                 }}
               >
                 Picture
               </Button>
-              <Button
+              {/* <Button
                 style={{
                   marginTop: "15px",
                   // marginLeft: "5px",
@@ -137,7 +132,7 @@ const CreatePost = () => {
                 onClick={() => setFlag(true)}
               >
                 Strings
-              </Button>
+              </Button> */}
             </Flex>
             {/* {flag && (
               <Text
@@ -175,7 +170,7 @@ const CreatePost = () => {
 
             <Textarea
               mt={2}
-              placeholder={flag ? "Post description..." : "Post caption..."}
+              placeholder="Post caption..."
               _placeholder={{ color: "gray.300" }}
               value={caption}
               onChange={(e) => setCaption(e.target.value)}
@@ -201,10 +196,9 @@ function useCreatePost() {
   const addPost = useUserProfileStore((state) => state.addPost);
   const userProfile = useUserProfileStore((state) => state.userProfile);
   const { pathname } = useLocation();
-  const handleCreatePost = async (selectedFile, caption, flag) => {
+  const handleCreatePost = async (selectedFile, caption) => {
     if (isLoading) return;
-    if (flag === false && !selectedFile)
-      throw new Error("Please select an image");
+
     setIsLoading(true);
     const newPost = {
       caption: caption,
@@ -217,17 +211,16 @@ function useCreatePost() {
     try {
       const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
       const userDocRef = doc(firestore, "users", authUser.uid);
-      if (!flag) {
-        const imageRef = ref(storage, `posts/${postDocRef.id}`);
 
-        await updateDoc(userDocRef, { posts: arrayUnion(postDocRef.id) });
-        await uploadString(imageRef, selectedFile, "data_url");
-        const downloadURL = await getDownloadURL(imageRef);
+      const imageRef = ref(storage, `posts/${postDocRef.id}`);
 
-        await updateDoc(postDocRef, { imageURL: downloadURL });
+      await updateDoc(userDocRef, { posts: arrayUnion(postDocRef.id) });
+      await uploadString(imageRef, selectedFile, "data_url");
+      const downloadURL = await getDownloadURL(imageRef);
 
-        newPost.imageURL = downloadURL;
-      }
+      await updateDoc(postDocRef, { imageURL: downloadURL });
+
+      newPost.imageURL = downloadURL;
 
       if (userProfile.uid === authUser.uid)
         createPost({ ...newPost, id: postDocRef.id });
