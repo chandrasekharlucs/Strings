@@ -6,8 +6,15 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 // import useAuthStore from "./store/authStore";
 import { auth } from "./Firebase/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    console.log(
+      "%cHi,Welcome to Strings.",
+      "font-size:40px; font-weight:bold; color:red;"
+    );
+  }, []);
   // const authUser = useAuthStore((state) => state.user);
   const [authUser] = useAuthState(auth);
   return (
